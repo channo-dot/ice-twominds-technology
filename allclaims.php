@@ -1,0 +1,163 @@
+<?php 
+include_once("admin/include/MysqliDB.php");
+include_once("admin/include/conn.php");
+include_once("admin/include/functions.php");
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Dashboard</title>
+  <meta content="" name="descriptison">
+  <meta content="" name="keywords">
+
+   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Muli:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/css/sidebar.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/icofont/icofont.min.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/animate.css/animate.min.css" rel="stylesheet">
+  <link href="assets/vendor/venobox/venobox.css" rel="stylesheet">
+  <link href="assets/vendor/owl.carousel/assets/owl.carousel.min.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: Flattern - v2.0.0
+  * Template URL: https://bootstrapmade.com/flattern-multipurpose-bootstrap-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+
+<?php include_once("include/header.php"); 
+if(isset($_SESSION["uauth"]))
+	$uid = $_SESSION["uauth"];
+else
+	header("location:index.php");
+$msg = 0;
+
+?> 
+<!-- End Header -->
+
+  <main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <section id="breadcrumbs" class="breadcrumbs">
+      <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>Dashboard</h2>
+          <ol>
+            <li><a href="index.html">Login</a></li>
+            <li>Dashboard</li>
+          </ol>
+        </div>
+<?php
+   $db->where("id",$uid);
+   $data = $db->getOne("users");
+   
+?>
+      </div>
+    </section><!-- End Breadcrumbs -->
+
+    <!-- ======= Services Section ======= -->
+    <section id="services" class="services">
+	
+      <div class="container">
+	   Welcome! <b><?php echo  $data["fname"]. " ".$data["lname"]; ?><b>
+
+        <div class="row">
+          
+          
+        
+          
+        </div>
+
+      </div>
+    </section><!-- End Services Section -->
+
+    <!-- ======= Features Section ======= -->
+    <section id="features" class="features">
+      <div class="container">
+
+      
+
+        <div class="row" style="margin-right: 281px;">
+          <div class="sidebar" data-aos="fade-right" style="height:300px;float:left">
+                  <?php 
+				  include_once("include/sidebar.php"); 
+				  
+				  ?>           
+
+          </div>
+          <div class="col-lg-7 ml-auto" data-aos="fade-left" data-aos-delay="100" style="float:left;">
+           <table class="table">
+				<?php
+				  $db->where("agent_id",$uid);
+				  $data = $db->get("claims");
+				  $i=0;
+				  if($db->count > 0) {
+				  foreach($data as $d) {
+				?>
+				<tr>
+				
+				<td>Policy Number</td><td><?php echo $d["pnumber"]; ?></td>
+				<td>Date</td><td><?php echo $d["date"]; ?></td>
+				<td><a href="viewclaim.php?id=<?php echo $d["id"]; ?>">
+				<button class="btn btn-primary">View</button>
+				</td>
+				</tr>
+				<?php 
+				  } } else { echo "No, claims yet!"; }
+				?>
+				
+				
+            </table>
+			
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End Features Section -->
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+ <?php include_once("include/footer.php"); ?>
+ <!-- End Footer -->
+
+
+
+  <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
+
+  <!-- Vendor JS Files -->
+ <script src="assets/vendor/jquery/jquery.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/jquery.easing/jquery.easing.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/jquery-sticky/jquery.sticky.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/venobox/venobox.min.js"></script>
+  <script src="assets/vendor/waypoints/jquery.waypoints.min.js"></script>
+  <script src="assets/vendor/owl.carousel/owl.carousel.min.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+</body>
+
+</html>
